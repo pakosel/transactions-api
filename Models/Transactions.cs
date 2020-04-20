@@ -13,7 +13,7 @@ public class Transactions
     public string PriceCurrencySymbol { get; set; }
     public decimal Amount { get; set; }
     public string AmountCurrencySymbol { get; set; }
-    public decimal Commision { get; set; }
+    public Nullable<decimal> Commision { get; set; }
     
     [Column(TypeName = "jsonb")]
     public string Jsondata { get; set; }
