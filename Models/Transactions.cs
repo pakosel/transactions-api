@@ -1,6 +1,6 @@
 using System;
 
-class Transactions
+public class Transactions
 {
     public int Id { get; set; }
     public DateTime Date { get; set; }
