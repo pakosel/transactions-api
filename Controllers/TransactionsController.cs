@@ -28,5 +28,13 @@ namespace transactions_api.Controllers
 
             return trans;
         }
+
+        [HttpGet("{ticker}")]
+        public IEnumerable<Transactions> GetTicker(string ticker)
+        {
+            var trans = _context.Transactions.Where(t => t.Stock == ticker).ToList();
+
+            return trans;
+        }
     }
 }
