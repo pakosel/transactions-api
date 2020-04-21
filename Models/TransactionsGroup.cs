@@ -1,5 +1,8 @@
-public class TransactionsGroup
+namespace transactions_api.Models
 {
-    public string Stock { get; set; }
-    public decimal Quantity { get; set; }
+    public class TransactionsGroup
+    {
+        public string Stock { get; set; }
+        public decimal Quantity { get; set; }
+    }
 }

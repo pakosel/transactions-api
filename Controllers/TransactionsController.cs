@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using transactions_api.Models;
+using transactions_api.Interfaces;
 
 namespace transactions_api.Controllers
 {
@@ -13,28 +14,28 @@ namespace transactions_api.Controllers
     public class TransactionsController : ControllerBase
     {
         private readonly ILogger<TransactionsController> _logger;
-        private readonly MyWebApiContext _context;
+        private readonly ITransactionsRepository _transactionsRepository;
 
-        public TransactionsController(ILogger<TransactionsController> logger, MyWebApiContext context)
+        public TransactionsController(ILogger<TransactionsController> logger, ITransactionsRepository transactionsRepository)
         {
             _logger = logger;
-            _context = context;
+            _transactionsRepository = transactionsRepository;
         }
 
         [HttpGet]
-        public IEnumerable<Transactions> Get()
+        public async Task<IActionResult> Get()
         {
-            var trans = _context.Transactions.ToList();
+            var trans = await _transactionsRepository.ListAsync();
 
-            return trans;
+            return Ok(trans);
         }
 
         [HttpGet("{ticker}")]
-        public IEnumerable<Transactions> GetTicker(string ticker)
+        public async Task<IActionResult> GetTicker(string ticker)
         {
-            var trans = _context.Transactions.Where(t => t.Stock == ticker).ToList();
+            var trans = await _transactionsRepository.ListByTickerAsync(ticker);
 
-            return trans;
+            return Ok(trans);
         }
     }
 }
