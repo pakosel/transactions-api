@@ -32,6 +32,7 @@ namespace transactions_api
             services.AddControllers();
             services.AddEntityFrameworkNpgsql().AddDbContext<MyWebApiContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("MyWebApiConnection")));
             services.AddScoped<ITransactionsRepository, TransactionsRepository>();
+            services.AddScoped<IPositionsRepository, PositionsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,7 +43,7 @@ namespace transactions_api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 

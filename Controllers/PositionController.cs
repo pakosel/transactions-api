@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using transactions_api.Models;
+using transactions_api.Interfaces;
 
 namespace transactions_api.Controllers
 {
@@ -13,42 +14,28 @@ namespace transactions_api.Controllers
     public class PositionController : ControllerBase
     {
         private readonly ILogger<PositionController> _logger;
-        private readonly MyWebApiContext _context;
+        private readonly IPositionsRepository _positionsRepository;
 
-        public PositionController(ILogger<PositionController> logger, MyWebApiContext context)
+        public PositionController(ILogger<PositionController> logger, IPositionsRepository positionsRepository)
         {
             _logger = logger;
-            _context = context;
+            _positionsRepository = positionsRepository;
         }
 
         [HttpGet("{date}")]
-        public IEnumerable<TransactionsGroup> Get(DateTime date)
+        public async Task<IActionResult> Get(DateTime date)
         {
-            var trans = _context.Transactions
-                .Where(t => t.Date <= date)
-                .GroupBy(t => t.Stock, (s, tt) => new TransactionsGroup()
-                {
-                    Stock = s,
-                    Quantity = tt.Sum(x => x.Quantity)
-                })
-                .Where(tg => tg.Quantity != 0)
-                .ToList();
+            var pos = await _positionsRepository.ListByDateAsync(date);
 
-            return trans;
+            return Ok(pos);
         }
 
         [HttpGet("{date}/{ticker}")]
-        public IEnumerable<TransactionsGroup> GetTicker(DateTime date, string ticker)
+        public async Task<IActionResult> GetTicker(DateTime date, string ticker)
         {
-            var trans = _context.Transactions
-                .Where(t => t.Date <= date && t.Stock.ToLower() == ticker.ToLower())
-                .GroupBy(t => t.Stock, (s, tt) => new TransactionsGroup()
-                {
-                    Stock = s,
-                    Quantity = tt.Sum(x => x.Quantity)
-                }).ToList();
+            var pos = await _positionsRepository.ListByTickerAsync(date, ticker);
 
-            return trans;
+            return Ok(pos);
         }
     }
 }
