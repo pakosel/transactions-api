@@ -11,12 +11,12 @@ namespace transactions_api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class PositionController : ControllerBase
+    public class PositionsController : ControllerBase
     {
-        private readonly ILogger<PositionController> _logger;
+        private readonly ILogger<PositionsController> _logger;
         private readonly IPositionsRepository _positionsRepository;
 
-        public PositionController(ILogger<PositionController> logger, IPositionsRepository positionsRepository)
+        public PositionsController(ILogger<PositionsController> logger, IPositionsRepository positionsRepository)
         {
             _logger = logger;
             _positionsRepository = positionsRepository;
