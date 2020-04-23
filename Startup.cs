@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using transactions_api.Models;
 using transactions_api.Infrastructure;
 using transactions_api.Interfaces;
+using Microsoft.OpenApi.Models;
 
 namespace transactions_api
 {
@@ -33,6 +34,10 @@ namespace transactions_api
             services.AddEntityFrameworkNpgsql().AddDbContext<MyWebApiContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("MyWebApiConnection")));
             services.AddScoped<ITransactionsRepository, TransactionsRepository>();
             services.AddScoped<IPositionsRepository, PositionsRepository>();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Transactions API", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,6 +47,13 @@ namespace transactions_api
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Transactions API v1");
+            });
+
 
             //app.UseHttpsRedirection();
 
