@@ -1,0 +1,54 @@
+version: '3'
+services:
+  postgres:
+    container_name: postgres
+    ports:
+      - "15432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    image: "postgres"
+    environment:
+        POSTGRES_USER: "postgres"
+        POSTGRES_PASSWORD: "postgres"
+        #POSTGRES_PASSWORD: "${MY_PG_PASS}"
+#    networks:
+#      - pgdefault
+
+  pgadmin:
+    container_name: pgadmin4
+    ports:
+      - "54888:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: postgres
+      PGADMIN_DEFAULT_PASSWORD: postgres
+#      PGADMIN_LISTEN_PORT: 54888
+    image: "dpage/pgadmin4"
+#    networks:
+#      - pgdefault
+
+  transactions-api:
+    build:
+      dockerfile: Dockerfile
+      context: transactions.webapi
+    container_name: transactions-api
+    hostname: transactions-api
+    ports: ["5000:5000"]
+    healthcheck:
+      test: "curl -f transactions-api:5000/swagger/"
+      interval: 20s
+      timeout: 120s
+      retries: 6
+    depends_on:
+      - postgres
+    # Wait until Postgres is ready
+    command: dockerize -wait tcp://postgres:5432 -timeout 2m /docker-entrypoint.sh start
+
+#networks:
+#  pgdefault:
+#    driver: bridge
+
+volumes:
+   postgres-data:
+   pgadmin-data:
