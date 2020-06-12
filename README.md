@@ -1,6 +1,6 @@
 # transactions-api
 
-Storing and aggreagting operations of the Stock market (buy, sell, dividend, etc.). Ability to view current Position of the given stock and Wallet value
+Storing and aggregating operations of the Stock market Wallet (buy, sell, dividend, etc.). Ability to view current Position size for the given stock and whole Wallet value
 
 ## Building and Running
 ```
