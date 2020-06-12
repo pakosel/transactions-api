@@ -47,6 +47,7 @@ namespace transactions_api
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.DatabaseUpdate();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
