@@ -15,6 +15,7 @@ using transactions_api.Models;
 using transactions_api.Infrastructure;
 using transactions_api.Interfaces;
 using Microsoft.OpenApi.Models;
+using AutoMapper;
 
 namespace transactions_api
 {
@@ -34,6 +35,7 @@ namespace transactions_api
             services.AddEntityFrameworkNpgsql().AddDbContext<MyWebApiContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("MyWebApiConnection")));
             services.AddScoped<ITransactionsRepository, TransactionsRepository>();
             services.AddScoped<IPositionsRepository, PositionsRepository>();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Transactions API", Version = "v1" });
@@ -47,14 +49,13 @@ namespace transactions_api
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.DatabaseUpdate();
+            //app.DatabaseUpdate();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Transactions API v1");
             });
-
 
             //app.UseHttpsRedirection();
 
