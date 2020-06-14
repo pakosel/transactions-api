@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/pakosel/transactions-api.svg?style=svg)](https://circleci.com/gh/pakosel/transactions-api)
+
 # transactions-api
 
 Storing and aggregating operations of the Stock market Wallet (buy, sell, dividend, etc.). Ability to view current Position size for the given stock and whole Wallet value
