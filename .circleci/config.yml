@@ -1,12 +1,30 @@
- version: 2.1
+version: 2.1
 
- orbs:
-  win: circleci/windows@2.2.0
+orbs:
+ win: circleci/windows@2.2.0
 
- jobs:
-   build:
-     executor: win/default     
-    
-     steps:
-       - checkout
-       - run: dotnet build
+jobs:
+ test:
+   description: Run all tests
+   executor: windows/default
+   steps:
+     - checkout
+     - run: dotnet test -v n --results-directory:test_coverage --collect:"Code Coverage"
+     - run: pwd
+     - store_artifacts:
+         path: C:\Users\circleci\project\test_coverage
+ 
+  build:
+    executor: win/default     
+   
+    steps:
+      - checkout
+      - run: dotnet build
+
+workflows:
+  test_and_build:
+    jobs:
+      - test
+      - build:
+          requires:
+            - test
