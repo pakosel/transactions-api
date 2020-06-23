@@ -28,6 +28,7 @@ namespace transactions_api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
+            _logger.LogInformation("Transations GET");
             var trans = await _transactionsRepository.ListAsync();
 
             return Ok(_mapper.Map<List<TransactionReadDto>>(trans));
@@ -36,6 +37,8 @@ namespace transactions_api.Controllers
         [HttpGet("{ticker}")]
         public async Task<IActionResult> GetTicker(string ticker)
         {
+            _logger.LogInformation($"Transations GET ticker={ticker}");
+
             var trans = await _transactionsRepository.ListByTickerAsync(ticker);
             if(trans != null)
                 return Ok(_mapper.Map<List<TransactionReadDto>>(trans));
