@@ -48,5 +48,13 @@ namespace transactions_api.Infrastructure
             _dbContext.Entry(transaction).State = EntityState.Modified;
             return _dbContext.SaveChangesAsync();
         }
+
+        public Task<List<string>> ListTickersAsync()
+        {
+            return _dbContext.Transactions
+                .Select(t => t.Stock)
+                .Distinct()
+                .ToListAsync();
+        }
     }
 }
