@@ -11,5 +11,6 @@ namespace transactions_api.Interfaces
         Task<Transaction> GetByIdAsync(int id);
         Task AddAsync(Transaction transaction);
         Task UpdateAsync(Transaction transaction);
+        Task<List<string>> ListTickersAsync();
     }
 }
