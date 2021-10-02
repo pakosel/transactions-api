@@ -45,5 +45,15 @@ namespace transactions_api.Controllers
             else
                 return NotFound();
         }
+
+      [HttpPost]
+      public async Task<IActionResult> AddTransaction([FromBody]TransactionReadDto transactionDto)
+      {
+         _logger.LogInformation($"Transations ADD {transactionDto}");
+         var transaction = _mapper.Map<Models.Transaction>(transactionDto);
+         await _transactionsRepository.AddAsync(transaction);
+
+         return Ok(transaction);
+      }
     }
 }

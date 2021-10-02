@@ -9,6 +9,7 @@ namespace transactions_api.MapperProfiles
         public TransactionsProfiles()
         {
             CreateMap<Transaction, TransactionReadDto>();
+            CreateMap<Transaction, TransactionReadDto>().ReverseMap();
         }
     }
 }
