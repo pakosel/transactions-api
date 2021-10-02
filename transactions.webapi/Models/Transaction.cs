@@ -26,7 +26,7 @@ namespace transactions_api.Models
         public string AmountCurrencySymbol { get; set; }
         public Nullable<decimal> Commision { get; set; }
 
-        [Column(TypeName = "jsonb")]
-        public string Jsondata { get; set; }
+        //[Column(TypeName = "jsonb")]
+        //public string Jsondata { get; set; }
     }
 }
