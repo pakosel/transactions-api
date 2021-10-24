@@ -14,6 +14,7 @@ namespace transactions_api.Infrastructure
             var dbContext = serviceScope.ServiceProvider.GetService<MyWebApiContext>();
             //if (!dbContext.Database.EnsureCreated())
             //   dbContext.Database.Migrate();
+            //dbContext.Database.EnsureDeleted();
             dbContext.Database.EnsureCreated();
          }
       }

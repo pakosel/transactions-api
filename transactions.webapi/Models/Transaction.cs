@@ -8,7 +8,7 @@ namespace transactions_api.Models
     {
         [Key]
         [Required]
-        public int Id { get; set; }
+        public int TransactionId { get; set; }
         [Required]
         public DateTime Date { get; set; }
         [Required]

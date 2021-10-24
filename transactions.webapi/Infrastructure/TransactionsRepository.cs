@@ -34,7 +34,7 @@ namespace transactions_api.Infrastructure
         public Task<Transaction> GetByIdAsync(int id)
         {
             return _dbContext.Transactions
-                .FirstOrDefaultAsync(t => t.Id == id);
+                .FirstOrDefaultAsync(t => t.TransactionId == id);
         }
 
         public Task AddAsync(Transaction transaction)

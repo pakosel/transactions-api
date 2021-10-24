@@ -7,5 +7,6 @@ namespace transactions_api.Models
         public MyWebApiContext(DbContextOptions<MyWebApiContext> options) : base(options) { }
 
         public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<StocksLeft> StocksLeft { get; set; }
     }
 }

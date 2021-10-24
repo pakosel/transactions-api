@@ -36,6 +36,7 @@ namespace transactions_api
             services.AddEntityFrameworkSqlServer().AddDbContext<MyWebApiContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("SqlServerDev")));
             services.AddScoped<ITransactionsRepository, TransactionsRepository>();
             services.AddScoped<IPositionsRepository, PositionsRepository>();
+            services.AddScoped<IStocksLeftRepository, StocksLeftRepository>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSwaggerGen(c =>
             {
