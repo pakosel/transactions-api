@@ -32,7 +32,8 @@ namespace transactions_api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddEntityFrameworkNpgsql().AddDbContext<MyWebApiContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("MyWebApiConnection")));
+            //services.AddEntityFrameworkNpgsql().AddDbContext<MyWebApiContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("MyWebApiConnection")));
+            services.AddEntityFrameworkSqlServer().AddDbContext<MyWebApiContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("SqlServerDev")));
             services.AddScoped<ITransactionsRepository, TransactionsRepository>();
             services.AddScoped<IPositionsRepository, PositionsRepository>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -50,7 +51,7 @@ namespace transactions_api
             {
                 app.UseDeveloperExceptionPage();
             }
-            //app.DatabaseUpdate();
+            app.DatabaseUpdate();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
