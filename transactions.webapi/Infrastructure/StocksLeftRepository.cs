@@ -16,9 +16,13 @@ namespace transactions_api.Infrastructure
          _dbContext = dbContext;
       }
 
-      public Task<List<StocksLeft>> ListAsync()
+      public Task<List<StocksLeft>> ListRemainingAsync(string ticker)
       {
-         return _dbContext.StocksLeft
+         return _dbContext.Transactions
+             .OrderBy(t => t.Date)
+             .Where(t => t.Stock == ticker)
+             .Join(_dbContext.StocksLeft, t => t.TransactionId, sl => sl.TransactionId, (t, sl) => sl)
+             .Where(sl => sl.Quantity > 0)
              .ToListAsync();
       }
 
@@ -27,5 +31,12 @@ namespace transactions_api.Infrastructure
          _dbContext.StocksLeft.Add(new StocksLeft() { TransactionId = transactionId, Quantity = quantity });
          return _dbContext.SaveChangesAsync();
       }
+
+      public Task UpdateAsync(StocksLeft stocksLeft, decimal quantity)
+      {
+         _dbContext.StocksLeft.FirstOrDefault(sl => sl.StocksLeftId == stocksLeft.StocksLeftId).Quantity = quantity;
+         return _dbContext.SaveChangesAsync();
+      }
+
    }
 }
