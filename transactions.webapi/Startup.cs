@@ -32,6 +32,7 @@ namespace transactions_api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddCors(opt => opt.AddPolicy("MyAllowAllPolicy", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
             //services.AddEntityFrameworkNpgsql().AddDbContext<MyWebApiContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("MyWebApiConnection")));
             services.AddEntityFrameworkSqlServer().AddDbContext<MyWebApiContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("SqlServerDev")));
             services.AddScoped<ITransactionsRepository, TransactionsRepository>();
@@ -64,6 +65,7 @@ namespace transactions_api
             //app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseCors("MyAllowAllPolicy");
 
             app.UseAuthorization();
 
