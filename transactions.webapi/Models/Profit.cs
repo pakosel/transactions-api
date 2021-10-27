@@ -19,5 +19,7 @@ namespace transactions_api.Models
       [Required]
       public decimal Amount { get; set; }
       public string AmountCurrencySymbol { get; set; }
+      [Required]
+      public decimal QtySold { get; set; }
    }
 }

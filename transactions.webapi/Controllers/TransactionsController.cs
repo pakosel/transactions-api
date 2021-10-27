@@ -33,7 +33,7 @@ namespace transactions_api.Controllers
       [HttpGet]
       public async Task<IActionResult> Get()
       {
-         _logger.LogInformation("Transations GET");
+         //_logger.LogInformation("Transations GET");
          var trans = await _transactionsRepository.ListAsync();
 
          return Ok(_mapper.Map<List<TransactionReadDto>>(trans));
@@ -42,7 +42,7 @@ namespace transactions_api.Controllers
       [HttpGet("{ticker}")]
       public async Task<IActionResult> GetTicker(string ticker)
       {
-         _logger.LogInformation($"Transations GET ticker={ticker}");
+         //_logger.LogInformation($"Transations GET ticker={ticker}");
 
          var trans = await _transactionsRepository.ListByTickerAsync(ticker);
          if (trans != null)
@@ -54,7 +54,7 @@ namespace transactions_api.Controllers
       [HttpPost("Add")]
       public async Task<IActionResult> AddTransaction([FromBody] TransactionReadDto transactionDto)
       {
-         _logger.LogInformation($"Transations ADD {transactionDto}");
+         //_logger.LogInformation($"Transations ADD {transactionDto}");
          var transaction = _mapper.Map<Transaction>(transactionDto);
 
          if (transactionDto.Operation == TransactionOperation.BUY.ToString())
@@ -62,7 +62,11 @@ namespace transactions_api.Controllers
          if (transactionDto.Operation == TransactionOperation.SELL.ToString())
             return await RegisterSell(transaction);
          else
-            return NotFound($"Unsupported transaction operation: {transactionDto.Operation}");
+         {
+            var err = $"Unsupported transaction operation: {transactionDto.Operation}";
+            _logger.LogError(err);
+            return NotFound(err);
+         }
       }
 
       private async Task<IActionResult> RegisterBuy(Transaction transaction)
@@ -77,7 +81,11 @@ namespace transactions_api.Controllers
          var remainingSellQuantity = transaction.Quantity;
          var remainingStocks = _stocksLeftRepository.ListRemainingAsync(transaction.Stock).Result;
          if (remainingStocks.Sum(rs => rs.Quantity) < remainingSellQuantity)
-            return NotFound($"Not enough stock quantity in the wallet for Stock {transaction.Stock} and Quantity {transaction.Quantity}");
+         {
+            var err = $"Not enough stock quantity in the wallet for Stock {transaction.Stock} and Quantity {transaction.Quantity}";
+            _logger.LogError(err);
+            return NotFound(err);
+         }
 
          await _transactionsRepository.AddAsync(transaction);
          foreach (var remainingStock in remainingStocks)
@@ -91,7 +99,7 @@ namespace transactions_api.Controllers
             //_logger.LogInformation($"PartSell = {partSell}");
             //_logger.LogInformation($"profitAmount = {profitAmount}");
             await _stocksLeftRepository.UpdateAsync(remainingStock, remainingStock.Quantity - deducting);
-            await _profitRepository.AddAsync(buyTran, transaction, partBuy, partSell, profitAmount, transaction.AmountCurrencySymbol);
+            await _profitRepository.AddAsync(buyTran, transaction, partBuy, partSell, profitAmount, deducting, transaction.AmountCurrencySymbol);
             remainingSellQuantity -= deducting;
             if (remainingSellQuantity <= 0)
                break;

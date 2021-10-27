@@ -23,7 +23,7 @@ namespace transactions_api.Infrastructure
              .ToListAsync();
       }
 
-      public Task AddAsync(Transaction transactionBuy, Transaction transactionSell, decimal buyRatio, decimal sellRatio, decimal amount, string amountCurrency = null)
+      public Task AddAsync(Transaction transactionBuy, Transaction transactionSell, decimal buyRatio, decimal sellRatio, decimal amount, decimal qtySold, string amountCurrency = null)
       {
          _dbContext.Profit.Add(new Profit()
          {
@@ -32,7 +32,8 @@ namespace transactions_api.Infrastructure
             BuyRatio = Math.Round(buyRatio, 2),
             SellRatio = Math.Round(sellRatio, 2),
             Amount = Math.Round(amount, 2),
-            AmountCurrencySymbol = amountCurrency
+            AmountCurrencySymbol = amountCurrency,
+            QtySold = qtySold
          });
          return _dbContext.SaveChangesAsync();
       }
