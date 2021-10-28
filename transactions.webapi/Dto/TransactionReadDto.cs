@@ -4,7 +4,7 @@ namespace transactions_api.Dto
 {
     public class TransactionReadDto
     {
-        public int Id { get; set; }
+        public int TransactionId { get; set; }
         public DateTime Date { get; set; }
         public string Stock { get; set; }
         public string Market { get; set; }
