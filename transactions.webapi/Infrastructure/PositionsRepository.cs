@@ -53,8 +53,10 @@ namespace transactions_api.Infrastructure
       {
          return _dbContext.Transactions
             .Where(t => t.Operation == "BUY")
-            .Where(t => string.IsNullOrEmpty(ticker) || t.Stock.ToLower() == ticker.ToLower())
-            .Where(t => _dbContext.Profit.Where(p => p.Buy.TransactionId == t.TransactionId).Any() == false ||
+            .Where(t => string.IsNullOrEmpty(ticker) || 
+                        (!ticker.Contains("*") && t.Stock.ToLower() == ticker.ToLower()) || 
+                        (ticker.Contains("*") && t.Stock.ToLower().StartsWith(ticker.ToLower().Replace("*",""))))
+            .Where(t => _dbContext.Profit.Any(p => p.Buy.TransactionId == t.TransactionId) == false ||
                         _dbContext.Profit.Where(p => p.Buy.TransactionId == t.TransactionId).Sum(p => p.QtySold) < t.Quantity)
             .OrderBy(t => t.TransactionId)
             .ToListAsync();
