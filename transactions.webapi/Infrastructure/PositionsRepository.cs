@@ -31,14 +31,17 @@ namespace transactions_api.Infrastructure
              .ToListAsync();
       }
 
-      public Task<List<TransactionsGroup>> ListByTickerAsync(DateTime date, string ticker)
+      public Task<List<TransactionsGroup>> ListGroupByTickerAsync()
       {
          return _dbContext.Transactions
-             .Where(t => t.Date <= date && t.Stock.ToLower() == ticker.ToLower())
+             .Where(t => t.Operation == "BUY")
              .GroupBy(t => t.Stock, (s, tt) => new TransactionsGroup()
              {
                 Stock = s,
-                Quantity = tt.Sum(x => x.Quantity)
+                Quantity = tt.Sum(x => x.Quantity),
+                AvgPrice = tt.Sum(x => x.Price * x.Quantity) / tt.Sum(x => x.Quantity),
+                PriceCurrencySymbol = tt.Max(x => x.PriceCurrencySymbol),
+                SumCommision = tt.Sum(x => x.Commision ?? 0)
              })
              .OrderBy(s => s.Stock)
              .ToListAsync();

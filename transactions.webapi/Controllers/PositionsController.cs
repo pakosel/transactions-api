@@ -30,10 +30,10 @@ namespace transactions_api.Controllers
          return Ok(pos);
       }
 
-      [HttpGet("{date}/{ticker}")]
-      public async Task<IActionResult> GetTicker(DateTime date, string ticker)
+      [HttpGet("opengrp")]
+      public async Task<IActionResult> GetTicker()
       {
-         var pos = await _positionsRepository.ListByTickerAsync(date, ticker);
+         var pos = await _positionsRepository.ListGroupByTickerAsync();
 
          return Ok(pos);
       }
