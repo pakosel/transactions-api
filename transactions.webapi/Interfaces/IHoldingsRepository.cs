@@ -8,7 +8,7 @@ namespace transactions_api.Interfaces
    public interface IHoldingsRepository
    {
       Task<List<TransactionsGroup>> ListByDateAsync(DateTime date);
-      Task<List<TransactionsGroup>> ListGroupByTickerAsync();
+      Task<List<TransactionsGroup>> ListGroupByTickerAsync(string ticker);
       Task<List<Transaction>> ListOpenAsync();
       Task<List<Transaction>> ListOpenByTickerAsync(string ticker);
    }

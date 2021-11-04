@@ -31,10 +31,15 @@ namespace transactions_api.Infrastructure
              .ToListAsync();
       }
 
-      public Task<List<TransactionsGroup>> ListGroupByTickerAsync()
+      public Task<List<TransactionsGroup>> ListGroupByTickerAsync(string ticker)
       {
          return _dbContext.Transactions
              .Where(t => t.Operation == "BUY")
+             .Where(t => string.IsNullOrEmpty(ticker) ||
+                        (!ticker.Contains("*") && t.Stock.ToLower() == ticker.ToLower()) ||
+                        (ticker.Contains("*") && t.Stock.ToLower().StartsWith(ticker.ToLower().Replace("*", ""))))
+             .Where(t => _dbContext.Profit.Any(p => p.Buy.TransactionId == t.TransactionId) == false ||
+                        _dbContext.Profit.Where(p => p.Buy.TransactionId == t.TransactionId).Sum(p => p.QtySold) < t.Quantity)
              .GroupBy(t => t.Stock, (s, tt) => new TransactionsGroup()
              {
                 Stock = s,
