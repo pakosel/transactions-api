@@ -13,10 +13,10 @@ namespace transactions_api.Controllers
     [Route("[controller]")]
     public class TickersController : ControllerBase
     {
-        private readonly ILogger<PositionsController> _logger;
+        private readonly ILogger<HoldingsController> _logger;
         private readonly ITransactionsRepository _transactionsRepository;
 
-        public TickersController(ILogger<PositionsController> logger, ITransactionsRepository transactionsRepository)
+        public TickersController(ILogger<HoldingsController> logger, ITransactionsRepository transactionsRepository)
         {
             _logger = logger;
             _transactionsRepository = transactionsRepository;

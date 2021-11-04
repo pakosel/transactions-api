@@ -36,7 +36,7 @@ namespace transactions_api
             //services.AddEntityFrameworkNpgsql().AddDbContext<MyWebApiContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("MyWebApiConnection")));
             services.AddEntityFrameworkSqlServer().AddDbContext<MyWebApiContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("SqlServerDev")));
             services.AddScoped<ITransactionsRepository, TransactionsRepository>();
-            services.AddScoped<IPositionsRepository, PositionsRepository>();
+            services.AddScoped<IHoldingsRepository, HoldingsRepository>();
             services.AddScoped<IStocksLeftRepository, StocksLeftRepository>();
             services.AddScoped<IProfitRepository, ProfitRepository>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

@@ -5,7 +5,7 @@ using transactions_api.Models;
 
 namespace transactions_api.Interfaces
 {
-   public interface IPositionsRepository
+   public interface IHoldingsRepository
    {
       Task<List<TransactionsGroup>> ListByDateAsync(DateTime date);
       Task<List<TransactionsGroup>> ListGroupByTickerAsync();

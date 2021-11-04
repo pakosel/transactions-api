@@ -8,11 +8,11 @@ using transactions_api.Interfaces;
 
 namespace transactions_api.Infrastructure
 {
-   public class PositionsRepository : IPositionsRepository
+   public class HoldingsRepository : IHoldingsRepository
    {
       private readonly MyWebApiContext _dbContext;
 
-      public PositionsRepository(MyWebApiContext dbContext)
+      public HoldingsRepository(MyWebApiContext dbContext)
       {
          _dbContext = dbContext;
       }
