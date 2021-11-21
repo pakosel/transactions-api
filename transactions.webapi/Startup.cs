@@ -39,6 +39,7 @@ namespace transactions_api
             services.AddScoped<IHoldingsRepository, HoldingsRepository>();
             services.AddScoped<IStocksLeftRepository, StocksLeftRepository>();
             services.AddScoped<IProfitRepository, ProfitRepository>();
+            services.AddScoped<ICommentRepository, CommentRepository>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSwaggerGen(c =>
             {

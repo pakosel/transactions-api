@@ -10,6 +10,8 @@ namespace transactions_api.MapperProfiles
         {
             CreateMap<Transaction, TransactionReadDto>();
             CreateMap<Transaction, TransactionReadDto>().ReverseMap();
+            CreateMap<Comment, CommentReadDto>();
+            CreateMap<Comment, CommentReadDto>().ReverseMap();
         }
     }
 }

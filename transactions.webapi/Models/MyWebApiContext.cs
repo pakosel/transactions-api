@@ -9,5 +9,6 @@ namespace transactions_api.Models
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<StocksLeft> StocksLeft { get; set; }
         public DbSet<Profit> Profit { get; set; }
+        public DbSet<Comment> Comment { get; set; }
     }
 }
