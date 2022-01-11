@@ -26,7 +26,8 @@ namespace transactions_api.Infrastructure
         public Task<List<Transaction>> ListByTickerAsync(string ticker)
         {
             return _dbContext.Transactions
-                .Where(t => t.Stock == ticker)
+                .Where(t => (ticker.Contains("*") && t.Stock.StartsWith(ticker.Replace("*", ""))) || 
+                            (!ticker.Contains("*") && t.Stock == ticker))
                 .OrderByDescending(t => t.Date)
                 .ToListAsync();
         }
