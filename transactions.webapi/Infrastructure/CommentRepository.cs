@@ -24,10 +24,10 @@ namespace transactions_api.Infrastructure
             .ToListAsync();
       }
 
-      public Task<List<Comment>> ListByTransactionAsync(Transaction transaction)
+      public Task<List<Comment>> ListByTransactionIdAsync(int transactionId)
       {
          return _dbContext.Comment
-            .Where(c => c.Transaction == transaction)
+            .Where(c => c.TransactionId == transactionId)
             .ToListAsync();
       }
 

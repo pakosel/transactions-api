@@ -39,7 +39,7 @@ namespace transactions_api.Controllers
       }
 
       [HttpGet("open")]
-      public async Task<IActionResult> GetOpenPostions()
+      public async Task<IActionResult> GetOpenPositions()
       {
          var pos = await _positionsRepository.ListOpenAsync();
 
@@ -47,7 +47,7 @@ namespace transactions_api.Controllers
       }
 
       [HttpGet("open/{ticker}")]
-      public async Task<IActionResult> GetOpenPostionsByTicker(string ticker)
+      public async Task<IActionResult> GetOpenPositionsByTicker(string ticker)
       {
          var pos = await _positionsRepository.ListOpenByTickerAsync(ticker);
 

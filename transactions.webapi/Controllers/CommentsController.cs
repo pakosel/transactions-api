@@ -38,10 +38,18 @@ namespace transactions_api.Controllers
       [HttpPost("add")]
       public async Task<IActionResult> AddTransaction([FromBody] CommentReadDto commentDto)
       {
-         //_logger.LogInformation($"Transations ADD {transactionDto}");
+         //_logger.LogInformation($"Transactions ADD {transactionDto}");
          var comment = _mapper.Map<Comment>(commentDto);
          await _commentsRepository.AddAsync(comment);
          return Ok(comment);
+      }
+
+      [HttpGet("{transactionId}")]
+      public async Task<IActionResult> GetCommentsByTranId(int transactionId)
+      {
+         var pos = await _commentsRepository.ListByTransactionIdAsync(transactionId);
+
+         return Ok(pos);
       }
    }
 }

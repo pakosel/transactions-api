@@ -8,7 +8,7 @@ namespace transactions_api.Interfaces
    public interface ICommentRepository
    {
       Task<List<Comment>> ListAsync();
-      Task<List<Comment>> ListByTransactionAsync(Transaction transaction);
+      Task<List<Comment>> ListByTransactionIdAsync(int transactionId);
       Task<List<Comment>> ListByTickerAsync(string ticker);
       Task AddAsync(Comment comment);
       Task AddAsync(DateTime dateAdded, string text, Transaction transaction = null);

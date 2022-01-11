@@ -33,7 +33,7 @@ namespace transactions_api.Controllers
       [HttpGet]
       public async Task<IActionResult> Get()
       {
-         //_logger.LogInformation("Transations GET");
+         //_logger.LogInformation("Transactions GET");
          var trans = await _transactionsRepository.ListAsync();
 
          return Ok(_mapper.Map<List<TransactionReadDto>>(trans));
@@ -42,7 +42,7 @@ namespace transactions_api.Controllers
       [HttpGet("{ticker}")]
       public async Task<IActionResult> GetTicker(string ticker)
       {
-         //_logger.LogInformation($"Transations GET ticker={ticker}");
+         //_logger.LogInformation($"Transactions GET ticker={ticker}");
 
          var trans = await _transactionsRepository.ListByTickerAsync(ticker);
          if (trans != null)
@@ -54,7 +54,7 @@ namespace transactions_api.Controllers
       [HttpPost("Add")]
       public async Task<IActionResult> AddTransaction([FromBody] TransactionReadDto transactionDto)
       {
-         //_logger.LogInformation($"Transations ADD {transactionDto}");
+         //_logger.LogInformation($"Transactions ADD {transactionDto}");
          var transaction = _mapper.Map<Transaction>(transactionDto);
 
          if (transactionDto.Operation == TransactionOperation.BUY.ToString())
@@ -94,7 +94,8 @@ namespace transactions_api.Controllers
             var buyTran = _transactionsRepository.GetByIdAsync(remainingStock.TransactionId).Result;
             var partBuy = deducting == buyTran.Quantity ? 1 : (decimal)(deducting / buyTran.Quantity);
             var partSell = deducting == transaction.Quantity ? 1 : (decimal)(deducting / transaction.Quantity);
-            var profitAmount = (decimal)(partSell * (transaction.Amount - transaction.Commision) - partBuy * (buyTran.Amount + buyTran.Commision));
+            var profitAmount = (decimal) (partSell * (transaction.Amount - transaction.Commision) -
+                                          partBuy * (buyTran.Amount + buyTran.Commision));
             //_logger.LogInformation($"PartBuy = {partBuy}");
             //_logger.LogInformation($"PartSell = {partSell}");
             //_logger.LogInformation($"profitAmount = {profitAmount}");
